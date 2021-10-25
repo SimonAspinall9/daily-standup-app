@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useAuth0 } from "@auth0/auth0-react";
+import { useState } from "react";
+import StandUpItems from "./StandUpItems/Items";
+import moment from "moment";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+  const { isLoading, isAuthenticated } = useAuth0();
+
+  const [selectedDate] = useState<Date>(moment().toDate());
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isAuthenticated) {
+    return <StandUpItems selectedDate={selectedDate} />;
+  }
+
+  return <div>You need to be logged in to use this website :)</div>;
+};
 
 export default App;

@@ -4,18 +4,12 @@ import StandUpItemsList from "./ItemsList";
 import { getUserData, IStandUpItem } from "./Data";
 import { useMemo, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { MobileDatePicker } from "@mui/lab";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import AdapterMoment from "@mui/lab/AdapterMoment";
 
 const StandUpItems = ({ selectedDate }: { selectedDate: Date }) => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
   const [yesterday, setYesterday] = useState<IStandUpItem[]>([]);
   const [today, setToday] = useState<IStandUpItem[]>([]);
   const [blockers, setBlockers] = useState<IStandUpItem[]>([]);
-  const [value, setValue] = useState<Date | null>(new Date());
 
   const getData = async () => {
     if (isAuthenticated && user) {
@@ -73,15 +67,8 @@ const StandUpItems = ({ selectedDate }: { selectedDate: Date }) => {
 
   useMemo(() => {
     getData();
+    // eslint-disable-next-line
   }, []);
-
-  const handleDateChange = (newDate: Date | null) => {
-    if (!newDate) {
-      newDate = new Date();
-    }
-
-    setValue(newDate);
-  };
 
   return (
     <Grid container>

@@ -18,7 +18,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { addItem } from "./Data";
 import { useAuth0 } from "@auth0/auth0-react";
-import { ListItemButton } from "@mui/material";
 
 const StandUpItemsList = ({
   data,

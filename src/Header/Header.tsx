@@ -13,7 +13,6 @@ import InboxIcon from "@mui/icons-material/Inbox";
 
 const Header = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<Date | null>(new Date());
 
   const toggleDrawer = () => {
     setOpen(!open);

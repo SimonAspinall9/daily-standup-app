@@ -1,5 +1,5 @@
 {
-  "baseApiUrl": "http://localhost:3001/",
+  "baseApiUrl": "https://dailystandup-api.herokuapp.com/",
   "auth0": {
     "audience": "https://daily-standup/",
     "clientId": "uzXTwKQMdXyDtlSDkdpbveM04wGsXTx2",

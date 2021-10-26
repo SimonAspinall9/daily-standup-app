@@ -6,7 +6,7 @@ import Header from "./Header/Header";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Profile from "./MyAccount/Profile";
 import Container from "@mui/material/Container";
-import config from "./config.json";
+import config from "../local.settings.json";
 
 ReactDOM.render(
   <Auth0Provider

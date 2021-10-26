@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "route": "sitemap",
+      "rewrite": "/sitemap.xml"
+    }
+  ],
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["sitemap.xml"]
+  }
+}

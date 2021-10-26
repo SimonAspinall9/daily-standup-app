@@ -29,6 +29,7 @@ const StandUpItemsList = ({
   onItemInserted: (item: IStandUpItem) => void;
 }) => {
   const { user, getAccessTokenSilently } = useAuth0();
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const info = {
     yesterday: {
@@ -67,16 +68,23 @@ const StandUpItemsList = ({
   };
 
   const handleNewItem = async () => {
-    const token = await getAccessTokenSilently();
-    const newItem = {
-      title: newTitle,
-      description: newDescription,
-      userId: user?.sub || "",
-      type: type,
-    };
-    await addItem(token, newItem);
-    handleClose();
-    onItemInserted(newItem);
+    try {
+      if (!isSaving) {
+        setIsSaving(true);
+        const token = await getAccessTokenSilently();
+        const newItem = {
+          title: newTitle,
+          description: newDescription,
+          userId: user?.sub || "",
+          type: type,
+        };
+        await addItem(token, newItem);
+        handleClose();
+        onItemInserted(newItem);
+      }
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -131,7 +139,7 @@ const StandUpItemsList = ({
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button variant="contained" disableElevation onClick={handleNewItem}>
-            Save
+            {isSaving ? "Saving..." : "Save"}
           </Button>
         </DialogActions>
       </Dialog>

@@ -34,7 +34,7 @@ const Header = () => {
           </IconButton>
           <Typography variant="h6" component="p" sx={{ flexGrow: 1 }}>
             <Link href="/" color="#fff" underline="none">
-              Daily Standup
+              My Standup
             </Link>
           </Typography>
           <MyAccount />

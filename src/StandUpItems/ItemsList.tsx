@@ -68,21 +68,18 @@ const StandUpItemsList = ({
   };
 
   const handleNewItem = async () => {
-    try {
-      if (!isSaving) {
-        setIsSaving(true);
-        const token = await getAccessTokenSilently();
-        const newItem = {
-          title: newTitle,
-          description: newDescription,
-          userId: user?.sub || "",
-          type: type,
-        };
-        await addItem(token, newItem);
-        handleClose();
-        onItemInserted(newItem);
-      }
-    } finally {
+    if (!isSaving) {
+      setIsSaving(true);
+      const token = await getAccessTokenSilently();
+      const newItem = {
+        title: newTitle,
+        description: newDescription,
+        userId: user?.sub || "",
+        type: type,
+      };
+      const savedItem = await addItem(token, newItem);
+      onItemInserted(savedItem);
+      handleClose();
       setIsSaving(false);
     }
   };
@@ -138,7 +135,12 @@ const StandUpItemsList = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button variant="contained" disableElevation onClick={handleNewItem}>
+          <Button
+            disabled={isSaving}
+            variant="contained"
+            disableElevation
+            onClick={handleNewItem}
+          >
             {isSaving ? "Saving..." : "Save"}
           </Button>
         </DialogActions>

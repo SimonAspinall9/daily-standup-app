@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ display: "flex", flexGrow: 1 }} marginBottom={2}>
       <AppBar position="static">
         <Toolbar>
           <IconButton

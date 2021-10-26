@@ -5,17 +5,34 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Profile = () => {
   const { isLoading, user } = useAuth0();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <Box
+        sx={{ display: "flex", flexGrow: 1 }}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center">
-      <Card sx={{ maxWidth: 345 }}>
+      <Card
+        sx={{ maxWidth: 345 }}
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          flexFlow: "column",
+          display: "flex",
+        }}
+      >
         <CardHeader
           avatar={
             <Avatar

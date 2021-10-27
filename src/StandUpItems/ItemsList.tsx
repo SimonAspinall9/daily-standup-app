@@ -8,8 +8,8 @@ import Grid from "@mui/material/Grid";
 import ListSubheader from "@mui/material/ListSubheader";
 import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
 import AddIcon from "@mui/icons-material/Add";
-import { IStandUpItem } from "./Data";
-import { useState } from "react";
+import { deleteItem, IStandUpItem } from "./Data";
+import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -18,15 +18,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { addItem } from "./Data";
 import { useAuth0 } from "@auth0/auth0-react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { ListItemButton } from "@mui/material";
 
 const StandUpItemsList = ({
   data,
   type,
   onItemInserted,
+  onItemDeleted,
 }: {
   data: IStandUpItem[];
   type: "yesterday" | "today" | "blocker";
   onItemInserted: (item: IStandUpItem) => void;
+  onItemDeleted: (id: string) => void;
 }) => {
   const { user, getAccessTokenSilently } = useAuth0();
   const [isSaving, setIsSaving] = useState<boolean>(false);
@@ -52,6 +56,17 @@ const StandUpItemsList = ({
   const [showAddNew, setShowAddNew] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const [token, setToken] = useState("");
+
+  const getAccessToken = async () => {
+    const myToken = await getAccessTokenSilently();
+    setToken(myToken);
+  };
+
+  useEffect(() => {
+    getAccessToken();
+  // eslint-disable-next-line
+  }, []);
 
   const handleAddNew = () => {
     setShowAddNew(true);
@@ -67,10 +82,14 @@ const StandUpItemsList = ({
     setNewDescription(e.target.value);
   };
 
+  const handleDelete = async (id: string | undefined) => {
+    await deleteItem(token, id || "");
+    onItemDeleted(id || "");
+  };
+
   const handleNewItem = async () => {
     if (!isSaving) {
       setIsSaving(true);
-      const token = await getAccessTokenSilently();
       const newItem = {
         title: newTitle,
         description: newDescription,
@@ -97,6 +116,15 @@ const StandUpItemsList = ({
           <ListItem key={d._id || i}>
             <ListItemIcon>{info[type].icon}</ListItemIcon>
             <ListItemText primary={d.title} secondary={d.description} />
+            <ListItemButton
+              alignItems="center"
+              sx={{ justifyContent: "flex-end", flexGrow: 0 }}
+              onClick={() => {
+                handleDelete(d._id);
+              }}
+            >
+              <DeleteIcon />
+            </ListItemButton>
           </ListItem>
         ))}
         <ListItem alignItems="center" style={{ justifyContent: "center" }}>

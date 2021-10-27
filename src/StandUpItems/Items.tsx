@@ -48,6 +48,23 @@ const StandUpItems = ({ selectedDate }: { selectedDate: Date }) => {
     }
   };
 
+  const removeItem = async (id: string) => {
+    if (yesterday.find((d) => d._id === id)) {
+      setYesterday(yesterday.filter((d) => d._id !== id));
+      return;
+    }
+
+    if (today.find((d) => d._id === id)) {
+      setToday(today.filter((d) => d._id !== id));
+      return;
+    }
+
+    if (blockers.find((d) => d._id === id)) {
+      setBlockers(blockers.filter((d) => d._id !== id));
+      return;
+    }
+  };
+
   const updateData = (item: IStandUpItem) => {
     if (item.type === "yesterday") {
       setYesterday((prevState) => [...prevState, item]);
@@ -74,11 +91,18 @@ const StandUpItems = ({ selectedDate }: { selectedDate: Date }) => {
     <Grid container>
       <StandUpItemsList
         onItemInserted={updateData}
+        onItemDeleted={removeItem}
         data={yesterday}
         type="yesterday"
       />
-      <StandUpItemsList onItemInserted={updateData} data={today} type="today" />
       <StandUpItemsList
+        onItemDeleted={removeItem}
+        onItemInserted={updateData}
+        data={today}
+        type="today"
+      />
+      <StandUpItemsList
+        onItemDeleted={removeItem}
         onItemInserted={updateData}
         data={blockers}
         type="blocker"

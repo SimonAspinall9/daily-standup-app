@@ -33,7 +33,6 @@ export const addItem = async (
   token: string,
   item: IStandUpItem
 ): Promise<IStandUpItem> => {
-  console.log(item);
   const resp = await myAxios.post<IStandUpItem>("standups/", item, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -43,4 +42,10 @@ export const addItem = async (
   }
 
   return item;
+};
+
+export const deleteItem = async (token: string, id: string) => {
+  await myAxios.delete(`standups/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };

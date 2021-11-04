@@ -63,9 +63,19 @@ const MyAccount = () => {
   }
 
   return (
-    <Button color="inherit" onClick={loginWithPopup}>
-      Login
-    </Button>
+    <div>
+      <Button
+        color="inherit"
+        onClick={() => {
+          loginWithPopup({ screen_hint: "signup" });
+        }}
+      >
+        Sign Up
+      </Button>
+      <Button color="inherit" onClick={loginWithPopup}>
+        Login
+      </Button>
+    </div>
   );
 };
 
